@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 from t360.domain import Candle, Tick
 from t360.market_data import CandleBuilder, compute_indicators
@@ -7,14 +7,14 @@ from t360.market_data import CandleBuilder, compute_indicators
 def tick(symbol: str, offset_seconds: int, price: float, volume: float = 10) -> Tick:
     return Tick(
         symbol=symbol,
-        timestamp=datetime(2026, 1, 1, 9, 15, tzinfo=timezone.utc) + timedelta(seconds=offset_seconds),
+        timestamp=datetime(2026, 1, 1, 9, 15, tzinfo=UTC) + timedelta(seconds=offset_seconds),
         last_price=price,
         volume=volume,
     )
 
 
 def candle(offset_seconds: int, close: float, volume: float = 10) -> Candle:
-    timestamp = datetime(2026, 1, 1, 9, 15, tzinfo=timezone.utc) + timedelta(seconds=offset_seconds)
+    timestamp = datetime(2026, 1, 1, 9, 15, tzinfo=UTC) + timedelta(seconds=offset_seconds)
     return Candle(
         symbol="NSE:TEST",
         timeframe="60s",
