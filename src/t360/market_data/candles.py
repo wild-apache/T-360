@@ -1,5 +1,5 @@
 from collections import OrderedDict
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 
 from t360.domain import Candle, Tick
 
