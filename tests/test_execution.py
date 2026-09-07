@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from decimal import Decimal
 
 import pytest
@@ -35,7 +35,7 @@ class FakeBroker(Broker):
             broker_order_id="broker-1",
             request=request,
             status=OrderStatus.NEW,
-            updated_at=datetime.now(timezone.utc),
+            updated_at=datetime.now(UTC),
         )
 
     async def cancel_order(self, broker_order_id: str) -> None:
