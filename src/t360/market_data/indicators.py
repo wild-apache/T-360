@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from itertools import pairwise
 
 from t360.domain import Candle
 
@@ -42,7 +43,7 @@ def _ema(values: list[float], period: int) -> float | None:
 def _rsi(values: list[float], period: int) -> float | None:
     if len(values) < 2:
         return None
-    deltas = [curr - prev for prev, curr in zip(values, values[1:])]
+    deltas = [curr - prev for prev, curr in pairwise(values)]
     window = deltas[-period:]
     gains = sum(max(delta, 0.0) for delta in window) / len(window)
     losses = sum(max(-delta, 0.0) for delta in window) / len(window)
