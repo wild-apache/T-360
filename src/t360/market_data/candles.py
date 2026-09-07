@@ -1,5 +1,5 @@
 from collections import OrderedDict
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime
 
 from t360.domain import Candle, Tick
 
@@ -61,13 +61,13 @@ class CandleBuilder:
     def _bucket_start(self, timestamp: datetime) -> datetime:
         epoch = int(timestamp.timestamp())
         bucket = epoch - epoch % self.timeframe_seconds
-        return datetime.fromtimestamp(bucket, tz=timezone.utc)
+        return datetime.fromtimestamp(bucket, tz=UTC)
 
     @staticmethod
     def _normalize_timestamp(timestamp: datetime) -> datetime:
         if timestamp.tzinfo is None:
-            return timestamp.replace(tzinfo=timezone.utc)
-        return timestamp.astimezone(timezone.utc)
+            return timestamp.replace(tzinfo=UTC)
+        return timestamp.astimezone(UTC)
 
     def _new_candle(self, tick: Tick, bucket: datetime) -> Candle:
         return Candle(
