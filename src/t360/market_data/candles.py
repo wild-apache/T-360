@@ -78,7 +78,7 @@ class CandleBuilder:
             high=tick.last_price,
             low=tick.last_price,
             close=tick.last_price,
-            volume=tick.volume,
+            volume=tick.volume or 0,
         )
 
     @staticmethod
@@ -88,6 +88,6 @@ class CandleBuilder:
                 "high": max(candle.high, tick.last_price),
                 "low": min(candle.low, tick.last_price),
                 "close": tick.last_price,
-                "volume": max(candle.volume, tick.volume),
+                "volume": max(candle.volume, tick.volume or 0),
             }
         )
