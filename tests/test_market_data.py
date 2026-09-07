@@ -47,6 +47,21 @@ def test_candle_builder_ignores_out_of_order_ticks() -> None:
     assert builder.flush("NSE:TEST")[0].close == 100
 
 
+def test_candle_builder_normalizes_missing_volume() -> None:
+    builder = CandleBuilder(60)
+    tick_with_no_volume = Tick(
+        symbol="NSE:TEST",
+        timestamp=datetime(2026, 1, 1, 9, 15, tzinfo=UTC),
+        last_price=100,
+        volume=None,
+    )
+
+    assert builder.update(tick_with_no_volume) is None
+    completed = builder.flush("NSE:TEST")
+
+    assert completed[0].volume == 0
+
+
 def test_indicators_are_deterministic() -> None:
     candles = [candle(i * 60, 100 + i) for i in range(20)]
     snapshot = compute_indicators(candles, period=14)
